@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { Provider } from 'react-redux';
+import mySaga from './sagas/my-sagas';
+import postReducer from './reducers/post-reducer';
+
 
 class App extends Component {
   render() {
@@ -24,5 +30,13 @@ class App extends Component {
     );
   }
 }
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+  postReducer,
+  applyMiddleware(sagaMiddleware)
+)
+
+sagaMiddleware.run(mySaga)
 
 export default App;
